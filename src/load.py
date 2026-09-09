@@ -1,11 +1,11 @@
 from openpyxl import load_workbook
-from config import OUTPUT_DIR, TEMPLATE_PATH
+from config import OUTPUT_DIR
 from copy import copy
 from openpyxl.styles import Border, Side, PatternFill
 
 fill_color = PatternFill(start_color='D9E1F2', end_color='D9E1F2', fill_type='solid')
 
-def generate_dashboard(template_path, current_data, prev_data, last_data, prev_variance, last_year_variance):
+def generate_dashboard(template_path, current_data, prev_data, last_data, prev_variance, last_year_variance, detailed_breakdown, top_medici, top_specialitati):
     wb = load_workbook(template_path)
     ws = wb['dashboard']
     row_map = {

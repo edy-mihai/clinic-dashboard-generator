@@ -1,5 +1,7 @@
-import pandas
 from config import EURO_RATE
+from extract import load_clinic_data
+from config import TEMPLATE_PATH
+from load import generate_dashboard
 
 def clean_clinic_data(df):
     df.loc[df['Doctor'] == 'CLINICA CLINICA', 'Specialitate medicala'] = 'OBSTETRICA-GINECOLOGIE'
@@ -389,10 +391,6 @@ def calculate_detailed_breakdown(curr_df, prev_df, last_df, grand_total, total_p
 
     return detailed_results
 
-from extract import load_clinic_data
-from config import CURRENT_MONTH_PATH, PREV_MONTH_PATH, LAST_YEAR_PATH, TEMPLATE_PATH
-from load import generate_dashboard
-
 def execute_pipeline(current_path, prev_path, last_path):
     curr_df = load_clinic_data(current_path)
     prev_df = load_clinic_data(prev_path)
@@ -414,8 +412,7 @@ def execute_pipeline(current_path, prev_path, last_path):
 
     detailed_breakdown = calculate_detailed_breakdown(curr_df, prev_df, last_df, curr_metrics["total lei"], curr_metrics["total pacienti unici"])
 
-    generate_dashboard(TEMPLATE_PATH, curr_metrics, prev_metrics, last_metrics, curr_prev, curr_last)
-
+    generate_dashboard(TEMPLATE_PATH, curr_metrics, prev_metrics, last_metrics, curr_prev, curr_last, detailed_breakdown, top_medici, top_specialitati)
 
 # treat database edge cases
 # TAKE CARE OF STORNARI
