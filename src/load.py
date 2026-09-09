@@ -1,6 +1,5 @@
 from openpyxl import load_workbook
 from config import OUTPUT_DIR, TEMPLATE_PATH
-from transform import curr_metrics, prev_metrics, last_metrics, curr_prev, curr_last, top_medici, top_specialitati, detailed_breakdown
 from copy import copy
 from openpyxl.styles import Border, Side, PatternFill
 
@@ -198,6 +197,3 @@ def fill_detailed_table(worksheet, data_dict, start_row):
             else:
                 current_row += 4
                 
-
-generate_dashboard(TEMPLATE_PATH, curr_metrics, prev_metrics, last_metrics, curr_prev, curr_last)
-    

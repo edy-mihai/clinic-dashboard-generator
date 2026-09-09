@@ -390,27 +390,32 @@ def calculate_detailed_breakdown(curr_df, prev_df, last_df, grand_total, total_p
     return detailed_results
 
 from extract import load_clinic_data
-from config import CURRENT_MONTH_PATH, PREV_MONTH_PATH, LAST_YEAR_PATH
+from config import CURRENT_MONTH_PATH, PREV_MONTH_PATH, LAST_YEAR_PATH, TEMPLATE_PATH
+from load import generate_dashboard
 
-curr_df = load_clinic_data(CURRENT_MONTH_PATH)
-prev_df = load_clinic_data(PREV_MONTH_PATH)
-last_df = load_clinic_data(LAST_YEAR_PATH)
+def execute_pipeline(current_path, prev_path, last_path):
+    curr_df = load_clinic_data(current_path)
+    prev_df = load_clinic_data(prev_path)
+    last_df = load_clinic_data(last_path)
 
-curr_df = clean_clinic_data(curr_df)
-prev_df = clean_clinic_data(prev_df)
-last_df = clean_clinic_data(last_df)
+    curr_df = clean_clinic_data(curr_df)
+    prev_df = clean_clinic_data(prev_df)
+    last_df = clean_clinic_data(last_df)
 
-curr_metrics = calculate_summary_metrics(curr_df)
-prev_metrics = calculate_summary_metrics(prev_df)
-last_metrics = calculate_summary_metrics(last_df)
+    curr_metrics = calculate_summary_metrics(curr_df)
+    prev_metrics = calculate_summary_metrics(prev_df)
+    last_metrics = calculate_summary_metrics(last_df)
 
-curr_prev = calculate_variances(curr_metrics, prev_metrics)
-curr_last = calculate_variances(curr_metrics, last_metrics)
+    curr_prev = calculate_variances(curr_metrics, prev_metrics)
+    curr_last = calculate_variances(curr_metrics, last_metrics)
 
-top_specialitati = calculate_group_rankings(curr_df, prev_df, last_df, 'Specialitate medicala', curr_metrics["total lei"])
-top_medici = calculate_group_rankings(curr_df, prev_df, last_df, 'Doctor', curr_metrics["total lei"])
+    top_specialitati = calculate_group_rankings(curr_df, prev_df, last_df, 'Specialitate medicala', curr_metrics["total lei"])
+    top_medici = calculate_group_rankings(curr_df, prev_df, last_df, 'Doctor', curr_metrics["total lei"])
 
-detailed_breakdown = calculate_detailed_breakdown(curr_df, prev_df, last_df, curr_metrics["total lei"], curr_metrics["total pacienti unici"])
+    detailed_breakdown = calculate_detailed_breakdown(curr_df, prev_df, last_df, curr_metrics["total lei"], curr_metrics["total pacienti unici"])
+
+    generate_dashboard(TEMPLATE_PATH, curr_metrics, prev_metrics, last_metrics, curr_prev, curr_last)
+
 
 # treat database edge cases
 # TAKE CARE OF STORNARI
