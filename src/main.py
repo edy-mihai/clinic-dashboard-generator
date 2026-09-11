@@ -3,6 +3,7 @@ from tkinter import filedialog, messagebox
 import os
 import shutil
 from transform import execute_pipeline
+from PIL import Image
 
 ctk.set_appearance_mode("Dark")
 ctk.set_default_color_theme("dark-blue")
@@ -24,6 +25,17 @@ main_frame.pack(expand=False)
 inner_frame = ctk.CTkFrame(main_frame, fg_color="transparent")
 inner_frame.pack(padx=40, pady=40)
 
+row0_frame = ctk.CTkFrame(inner_frame, fg_color="transparent")
+row0_frame.pack(pady=10, fill="x")
+
+row1_frame = ctk.CTkFrame(inner_frame, fg_color="transparent")
+row1_frame.pack(pady=10, fill="x")
+
+row2_frame = ctk.CTkFrame(inner_frame, fg_color="transparent")
+row2_frame.pack(pady=10, fill="x")
+
+upload_icon = ctk.CTkImage(light_image=Image.open("assets/file-up.png"), size=(20, 20))
+
 curr_path_var = ctk.StringVar()
 prev_path_var = ctk.StringVar()
 last_path_var = ctk.StringVar()
@@ -39,6 +51,7 @@ def select_file(path_var, name_var):
         path_var.set(filepath)
         file_name = os.path.basename(filepath)
         name_var.set(file_name)
+        download_btn.pack_forget()
 
 def run_generator():
     c_path = curr_path_var.get()
@@ -51,12 +64,15 @@ def run_generator():
 
     if not os.path.exists("data/output/"):
         os.makedirs("data/output/")
-    
-    execute_pipeline(c_path, p_path, l_path)
 
-    os.startfile(os.path.abspath("data/output/Dashboard_Generated.xlsx"))
+    try:
+        execute_pipeline(c_path, p_path, l_path)
+        os.startfile(os.path.abspath("data/output/Dashboard_Generated.xlsx"))
 
-    download_btn.grid(row=5, column=0, columnspan=3, pady=10, ipadx=5, ipady=5)
+    except PermissionError:
+        messagebox.showerror("Error", "Please close the dashboard file before generating!")
+
+    download_btn.pack(pady=10, ipadx=5, ipady=5)
 
 def save_dashboard():
     file_destination = filedialog.asksaveasfilename(defaultextension=".xlsx", filetypes=[("Excel", "*.xlsx")])
@@ -65,34 +81,17 @@ def save_dashboard():
         shutil.copy("data/output/Dashboard_Generated.xlsx", file_destination)
         messagebox.showinfo("Success", "Dashboard saved successfully!")
 
-ctk.CTkLabel(inner_frame, text="Current Month Data:", font=bold_font).grid(row=0, column=0, sticky="w", pady=10)
-ctk.CTkButton(inner_frame, text="Browse", command=lambda: select_file(curr_path_var, curr_name_var), font=bold_font).grid(row=0, column=1, padx=20)
-ctk.CTkLabel(inner_frame, textvariable=curr_name_var, text_color="gray", font=bold_font).grid(row=0, column=2, sticky="w")
+def create_file_row(parent_frame, row_title, path_variable, name_variable):
+    ctk.CTkLabel(parent_frame, text=row_title, font=bold_font, width=210, anchor="w").pack(side="left", padx=0)
+    ctk.CTkLabel(parent_frame, textvariable=name_variable, text_color="gray", font=bold_font).pack(side="left", padx=(5, 0))
+    ctk.CTkButton(parent_frame, text="", command=lambda: select_file(path_variable, name_variable), image=upload_icon, width=20, height=30).pack(side="left", padx=15)
 
+create_file_row(row0_frame, "Current Month Data:", curr_path_var, curr_name_var)
+create_file_row(row1_frame, "Previous Month Data:", prev_path_var, prev_name_var)
+create_file_row(row2_frame, "Last Year Month Data:", last_path_var, last_name_var)
 
-ctk.CTkLabel(inner_frame, text="Previous Month Data:", font=bold_font).grid(row=1, column=0, sticky="w", pady=10)
-ctk.CTkButton(inner_frame, text="Browse", command=lambda: select_file(prev_path_var, prev_name_var), font=bold_font).grid(row=1, column=1, padx=20)
-ctk.CTkLabel(inner_frame, textvariable=prev_name_var, text_color="gray", font=bold_font).grid(row=1, column=2, sticky="w")
-
-ctk.CTkLabel(inner_frame, text="Last Year Month Data:", font=bold_font).grid(row=2, column=0, sticky="w", pady=10)
-ctk.CTkButton(inner_frame, text="Browse", command=lambda: select_file(last_path_var, last_name_var), font=bold_font).grid(row=2, column=1, padx=20)
-ctk.CTkLabel(inner_frame, textvariable=last_name_var, text_color="gray", font=bold_font).grid(row=2, column=2, sticky="w")
-
-ctk.CTkLabel(inner_frame, text="").grid(row=3, column=0, pady=10)
-
-ctk.CTkButton(inner_frame, text="Generate Dashboard", command=run_generator, fg_color="green", text_color="white", font=bold_font).grid(row=4, column=0, columnspan=3, pady=20, ipadx=10, ipady=5)
+ctk.CTkButton(inner_frame, text="Generate Dashboard", command=run_generator, fg_color="green", text_color="white", font=bold_font).pack(pady=(30, 10), ipadx=10, ipady=5)
 
 download_btn = ctk.CTkButton(inner_frame, text="Save Dashboard As...", command=save_dashboard, font=("Segoe UI", 13, "bold"))
 
 root.mainloop()
-
-# EDGE CASES:
-# - the generated excel file is already open and gives a permission error
-# - after selecting a different file in one of the 3 categories, the save as button should disappear until a new file with the new inputs is generated
-
-# change browse buttons to small upload ones:
-
-#                   /\
-#                |  ||  |
-#                |  ||  |
-#                |______|        
