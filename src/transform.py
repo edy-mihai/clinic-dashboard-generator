@@ -391,7 +391,7 @@ def calculate_detailed_breakdown(curr_df, prev_df, last_df, grand_total, total_p
 
     return detailed_results
 
-def execute_pipeline(current_path, prev_path, last_path):
+def execute_pipeline(current_path, prev_path, last_path, output_path):
     curr_df = load_clinic_data(current_path)
     prev_df = load_clinic_data(prev_path)
     last_df = load_clinic_data(last_path)
@@ -412,7 +412,7 @@ def execute_pipeline(current_path, prev_path, last_path):
 
     detailed_breakdown = calculate_detailed_breakdown(curr_df, prev_df, last_df, curr_metrics["total lei"], curr_metrics["total pacienti unici"])
 
-    generate_dashboard(TEMPLATE_PATH, curr_metrics, prev_metrics, last_metrics, curr_prev, curr_last, detailed_breakdown, top_medici, top_specialitati)
+    generate_dashboard(TEMPLATE_PATH, curr_metrics, prev_metrics, last_metrics, curr_prev, curr_last, detailed_breakdown, top_medici, top_specialitati, output_path)
 
 # treat database edge cases
 # TAKE CARE OF STORNARI

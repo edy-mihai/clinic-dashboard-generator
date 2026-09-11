@@ -4,6 +4,7 @@ import os
 import shutil
 from transform import execute_pipeline
 from PIL import Image
+import sys
 
 ctk.set_appearance_mode("Dark")
 ctk.set_default_color_theme("dark-blue")
@@ -34,8 +35,6 @@ row1_frame.pack(pady=10, fill="x")
 row2_frame = ctk.CTkFrame(inner_frame, fg_color="transparent")
 row2_frame.pack(pady=10, fill="x")
 
-upload_icon = ctk.CTkImage(light_image=Image.open("assets/file-up.png"), size=(20, 20))
-
 curr_path_var = ctk.StringVar()
 prev_path_var = ctk.StringVar()
 last_path_var = ctk.StringVar()
@@ -62,12 +61,12 @@ def run_generator():
         messagebox.showerror("Error", "Please select all three files!")
         return
 
-    if not os.path.exists("data/output/"):
-        os.makedirs("data/output/")
+    if not os.path.exists(get_output_path("data/output/")):
+        os.makedirs(get_output_path("data/output/"))
 
     try:
-        execute_pipeline(c_path, p_path, l_path)
-        os.startfile(os.path.abspath("data/output/Dashboard_Generated.xlsx"))
+        execute_pipeline(c_path, p_path, l_path, get_output_path("data/output/Dashboard_Generated.xlsx"))
+        os.startfile(get_output_path("data/output/Dashboard_Generated.xlsx"))
 
     except PermissionError:
         messagebox.showerror("Error", "Please close the dashboard file before generating!")
@@ -78,13 +77,31 @@ def save_dashboard():
     file_destination = filedialog.asksaveasfilename(defaultextension=".xlsx", filetypes=[("Excel", "*.xlsx")])
 
     if file_destination:
-        shutil.copy("data/output/Dashboard_Generated.xlsx", file_destination)
+        shutil.copy(get_output_path("data/output/Dashboard_Generated.xlsx"), file_destination)
         messagebox.showinfo("Success", "Dashboard saved successfully!")
 
 def create_file_row(parent_frame, row_title, path_variable, name_variable):
     ctk.CTkLabel(parent_frame, text=row_title, font=bold_font, width=210, anchor="w").pack(side="left", padx=0)
     ctk.CTkLabel(parent_frame, textvariable=name_variable, text_color="gray", font=bold_font).pack(side="left", padx=(5, 0))
     ctk.CTkButton(parent_frame, text="", command=lambda: select_file(path_variable, name_variable), image=upload_icon, width=20, height=30).pack(side="left", padx=15)
+
+def get_asset_path(relative_path):
+    if hasattr(sys, "_MEIPASS"):
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
+def get_output_path(relative_path):
+    if getattr(sys, 'frozen', False):
+        base_path = os.path.dirname(sys.executable)
+    else:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
+upload_icon = ctk.CTkImage(light_image=Image.open(get_asset_path("assets/file-up.png")))
 
 create_file_row(row0_frame, "Current Month Data:", curr_path_var, curr_name_var)
 create_file_row(row1_frame, "Previous Month Data:", prev_path_var, prev_name_var)

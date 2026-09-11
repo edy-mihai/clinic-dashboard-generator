@@ -1,11 +1,10 @@
 from openpyxl import load_workbook
-from config import OUTPUT_DIR
 from copy import copy
 from openpyxl.styles import Border, Side, PatternFill
 
 fill_color = PatternFill(start_color='D9E1F2', end_color='D9E1F2', fill_type='solid')
 
-def generate_dashboard(template_path, current_data, prev_data, last_data, prev_variance, last_year_variance, detailed_breakdown, top_medici, top_specialitati):
+def generate_dashboard(template_path, current_data, prev_data, last_data, prev_variance, last_year_variance, detailed_breakdown, top_medici, top_specialitati, output_path):
     wb = load_workbook(template_path)
     ws = wb['dashboard']
     row_map = {
@@ -38,7 +37,7 @@ def generate_dashboard(template_path, current_data, prev_data, last_data, prev_v
             ws.row_dimensions[r].height = 49.8
             break
     
-    wb.save(OUTPUT_DIR + "Dashboard_Generated.xlsx")
+    wb.save(output_path)
 
 def fill_dynamic_table(worksheet, data_dict, start_row):
     rows_to_insert = len(data_dict) - 1
