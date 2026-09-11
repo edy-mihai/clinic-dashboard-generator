@@ -119,7 +119,7 @@ def inject_triple_block(worksheet, anchor_row, target_row, entity_name, metrics_
         target_cell.number_format = copy(source_cell.number_format)
         target_cell.alignment = copy(source_cell.alignment)
 
-    worksheet.cell(row=target_row + 1, column=2).value = f"{entity_name} NR. PACIENTI UNICI"
+    worksheet.cell(row=target_row + 1, column=2).value = f"{entity_name} NR. PACIENȚI UNICI"
     worksheet.cell(row=target_row + 1, column=3).value = metrics_dict["percent total pat"]
     worksheet.cell(row=target_row + 1, column=4).value = metrics_dict["current nr patient"]
     worksheet.cell(row=target_row + 1, column=5).value = metrics_dict["last nr patient"]
@@ -143,7 +143,7 @@ def inject_triple_block(worksheet, anchor_row, target_row, entity_name, metrics_
         target_cell.number_format = copy(source_cell.number_format)
         target_cell.alignment = copy(source_cell.alignment)
 
-    worksheet.cell(row=target_row + 2, column=2).value = f"{entity_name} INCASARE/PACIENTI UNICI"
+    worksheet.cell(row=target_row + 2, column=2).value = f"{entity_name} ÎNCASARE/PACIENȚI UNICI"
     worksheet.cell(row=target_row + 2, column=4).value = metrics_dict["current avg patient"]
     worksheet.cell(row=target_row + 2, column=5).value = metrics_dict["last avg patient"]
     worksheet.cell(row=target_row + 2, column=6).value = metrics_dict["previous avg patient"]

@@ -1,6 +1,5 @@
-from config import EURO_RATE
 from extract import load_clinic_data
-from config import TEMPLATE_PATH
+from config import TEMPLATE_PATH, get_live_euro_rate
 from load import generate_dashboard
 
 def clean_clinic_data(df):
@@ -9,9 +8,9 @@ def clean_clinic_data(df):
 
     return df
 
-def calculate_summary_metrics(df):
+def calculate_summary_metrics(df, live_rate):
     total_lei = df['Platit'].sum()
-    total_euro = total_lei / EURO_RATE
+    total_euro = total_lei / live_rate
 
     total_discount = df['Discount'].sum()
     total_signal_iduna = df['SIGNAL IDUNA'].sum()
@@ -392,6 +391,8 @@ def calculate_detailed_breakdown(curr_df, prev_df, last_df, grand_total, total_p
     return detailed_results
 
 def execute_pipeline(current_path, prev_path, last_path, output_path):
+    current_euro_rate = get_live_euro_rate()
+
     curr_df = load_clinic_data(current_path)
     prev_df = load_clinic_data(prev_path)
     last_df = load_clinic_data(last_path)
@@ -400,9 +401,9 @@ def execute_pipeline(current_path, prev_path, last_path, output_path):
     prev_df = clean_clinic_data(prev_df)
     last_df = clean_clinic_data(last_df)
 
-    curr_metrics = calculate_summary_metrics(curr_df)
-    prev_metrics = calculate_summary_metrics(prev_df)
-    last_metrics = calculate_summary_metrics(last_df)
+    curr_metrics = calculate_summary_metrics(curr_df, current_euro_rate)
+    prev_metrics = calculate_summary_metrics(prev_df, current_euro_rate)
+    last_metrics = calculate_summary_metrics(last_df, current_euro_rate)
 
     curr_prev = calculate_variances(curr_metrics, prev_metrics)
     curr_last = calculate_variances(curr_metrics, last_metrics)
