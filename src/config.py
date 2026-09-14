@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 import customtkinter as ctk
 from tkinter import messagebox
 
-url = "https://curs.bnr.ro/nbrfxrates.xml"
+url = "https://cdurs.bnr.ro/nbrfxrates.xml"
 
 header = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
@@ -34,7 +34,7 @@ def get_live_euro_rate():
 
     except Exception:
         while True:
-            user_input = ctk.CTkInputDialog(text="Network error. Couldn't get the EURO rate. Please enter manually:").get_input()
+            user_input = ctk.CTkInputDialog(title="Error", text="Network error. Couldn't get the EURO rate. Please enter manually:").get_input()
 
             if user_input:
                 user_input = user_input.replace(',', '.')
@@ -51,4 +51,5 @@ TEMPLATE_PATH = get_template_path("data/templates/DASHBOARD.xlsx")
 SHEET_NAME = "Foaie 1"
 
 # fix app window and error pop up to appear in the middle of the screen whe opened
+# treat network error pop up edge case
 # delete the files in the input and output folders

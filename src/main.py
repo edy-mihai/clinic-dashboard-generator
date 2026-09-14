@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from customtkinter import CTk
 from tkinter import filedialog, messagebox
 import os
 import shutil
@@ -14,8 +15,18 @@ bold_font = ("Segoe UI", 20, "bold")
 title_font = ("Segoe UI", 40, "bold")
 
 root = ctk.CTk()
+root.update_idletasks()
 root.title("Dashboard Generator")
-root.geometry("1280x720")
+
+def CenterWindowToDisplay(Screen: CTk, width: int, height: int, scale_factor: float = 1.0):
+    screen_width = Screen.winfo_screenwidth()
+    screen_height = Screen.winfo_screenheight()
+    x = int(((screen_width/2) - (width/2)) * scale_factor)
+    y = int(((screen_height/2) - (height/2)) * scale_factor)
+    return f"{width}x{height}+{x}+{y}"
+
+root.geometry(CenterWindowToDisplay(root, 1200, 720, root._get_window_scaling()))
+
 root.config(padx=20, pady=20)
 
 ctk.CTkLabel(root, text="Clinic Dashboard Generator", font=title_font).pack(pady=(20, 50))
