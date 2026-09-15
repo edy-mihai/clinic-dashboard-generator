@@ -76,7 +76,7 @@ def run_generator():
         os.makedirs(get_output_path("data/output/"))
 
     try:
-        execute_pipeline(c_path, p_path, l_path, get_output_path("data/output/Dashboard_Generated.xlsx"))
+        execute_pipeline(c_path, p_path, l_path, get_output_path("data/output/Dashboard_Generated.xlsx"), root)
         os.startfile(get_output_path("data/output/Dashboard_Generated.xlsx"))
 
     except PermissionError:

@@ -390,8 +390,8 @@ def calculate_detailed_breakdown(curr_df, prev_df, last_df, grand_total, total_p
 
     return detailed_results
 
-def execute_pipeline(current_path, prev_path, last_path, output_path):
-    current_euro_rate = get_live_euro_rate()
+def execute_pipeline(current_path, prev_path, last_path, output_path, app_window):
+    current_euro_rate = get_live_euro_rate(app_window)
 
     curr_df = load_clinic_data(current_path)
     prev_df = load_clinic_data(prev_path)
