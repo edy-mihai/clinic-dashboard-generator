@@ -14,9 +14,18 @@ ui_font = ("Segoe UI", 20)
 bold_font = ("Segoe UI", 20, "bold")
 title_font = ("Segoe UI", 40, "bold")
 
+def get_asset_path(relative_path):
+    if hasattr(sys, "_MEIPASS"):
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
 root = ctk.CTk()
 root.update_idletasks()
-root.title("Dashboard Generator")
+root.title("Clinic Dashboard Generator")
+root.iconbitmap(get_asset_path("assets/app_icon.ico"))
 
 def CenterWindowToDisplay(Screen: CTk, width: int, height: int, scale_factor: float = 1.0):
     screen_width = Screen.winfo_screenwidth()
@@ -96,17 +105,9 @@ def create_file_row(parent_frame, row_title, path_variable, name_variable):
     ctk.CTkLabel(parent_frame, textvariable=name_variable, text_color="gray", font=bold_font).pack(side="left", padx=(5, 0))
     ctk.CTkButton(parent_frame, text="", command=lambda: select_file(path_variable, name_variable), image=upload_icon, width=20, height=30).pack(side="left", padx=15)
 
-def get_asset_path(relative_path):
+def get_output_path(relative_path):
     if hasattr(sys, "_MEIPASS"):
         base_path = sys._MEIPASS
-    else:
-        base_path = os.path.abspath(".")
-
-    return os.path.join(base_path, relative_path)
-
-def get_output_path(relative_path):
-    if getattr(sys, 'frozen', False):
-        base_path = os.path.dirname(sys.executable)
     else:
         base_path = os.path.abspath(".")
 

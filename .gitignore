@@ -1,5 +1,9 @@
-data/
+data/input
+data/output
 .venv/
 __pycache__/
 .vscode/
 roadmap ss/
+build/
+dist/
+Clinic Dashboard Generator.spec

@@ -1,5 +1,6 @@
 import os
 import sys
+import ssl
 import urllib.request
 import xml.etree.ElementTree as ET
 import customtkinter as ctk
@@ -55,8 +56,9 @@ def network_error_popup(app_window):
 def get_live_euro_rate(app_window):
     try:
         request = urllib.request.Request(url, headers=header)
+        bypass = ssl._create_unverified_context()
 
-        with urllib.request.urlopen(request) as response:
+        with urllib.request.urlopen(request, context=bypass) as response:
             tree = ET.parse(response)
             root = tree.getroot()
 
