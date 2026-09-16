@@ -49,7 +49,10 @@ def calculate_variances(current_dict, past_dict):
         dif_absoluta = current_dict[key] - past_dict[key]
 
         if past_dict[key] == 0:
-            dif_procent = 0
+            if current_dict[key] > 0:
+                dif_procent = "NEW"
+            else:
+                dif_procent = 0
         else:
             dif_procent = dif_absoluta / past_dict[key]
 
@@ -82,7 +85,10 @@ def calculate_group_rankings(curr_df, prev_df, last_df, category_col, grand_tota
         curr_prev_abs = curr_revenue - prev_revenue
 
         if prev_revenue == 0:
-            curr_prev_prt = 0
+            if curr_revenue > 0:
+                curr_prev_prt = "NEW"
+            else:
+                curr_prev_prt = 0
         else:
             curr_prev_prt = curr_prev_abs / prev_revenue
 
@@ -90,7 +96,10 @@ def calculate_group_rankings(curr_df, prev_df, last_df, category_col, grand_tota
         curr_last_abs = curr_revenue - last_revenue
         
         if last_revenue == 0:
-            curr_last_prt = 0
+            if curr_revenue > 0:
+                curr_last_prt = "NEW"
+            else:    
+                curr_last_prt = 0
         else:
             curr_last_prt = curr_last_abs / last_revenue
 
@@ -141,7 +150,10 @@ def calculate_detailed_breakdown(curr_df, prev_df, last_df, grand_total, total_p
         spec_curr_prev_abs = spec_curr_rev - spec_prev_rev
         
         if spec_prev_rev == 0:
-            spec_curr_prev_prt = 0
+            if spec_curr_rev > 0:
+                spec_curr_prev_prt = "NEW"
+            else:
+                spec_curr_prev_prt = 0
         else:
             spec_curr_prev_prt = spec_curr_prev_abs / spec_prev_rev
         
@@ -149,7 +161,10 @@ def calculate_detailed_breakdown(curr_df, prev_df, last_df, grand_total, total_p
         spec_curr_last_abs = spec_curr_rev - spec_last_rev
         
         if spec_last_rev == 0:
-            spec_curr_last_prt = 0
+            if spec_curr_rev > 0:
+                spec_curr_last_prt = "NEW"
+            else:
+                spec_curr_last_prt = 0
         else:
             spec_curr_last_prt = spec_curr_last_abs / spec_last_rev
 
@@ -183,7 +198,10 @@ def calculate_detailed_breakdown(curr_df, prev_df, last_df, grand_total, total_p
         spec_curr_prev_pat_abs = spec_curr_pat - spec_prev_pat
         
         if spec_prev_pat == 0:
-            spec_curr_prev_pat_prt = 0
+            if spec_curr_pat > 0:
+                spec_curr_prev_pat_prt = "NEW"
+            else:
+                spec_curr_prev_pat_prt = 0
         else:
             spec_curr_prev_pat_prt = spec_curr_prev_pat_abs / spec_prev_pat
         
@@ -191,7 +209,10 @@ def calculate_detailed_breakdown(curr_df, prev_df, last_df, grand_total, total_p
         spec_curr_last_pat_abs = spec_curr_pat - spec_last_pat
         
         if spec_last_pat == 0:
-            spec_curr_last_pat_prt = 0
+            if spec_curr_pat > 0:
+                spec_curr_last_pat_prt = "NEW"
+            else:
+                spec_curr_last_pat_prt = 0
         else:
             spec_curr_last_pat_prt = spec_curr_last_pat_abs / spec_last_pat        
 
@@ -200,7 +221,10 @@ def calculate_detailed_breakdown(curr_df, prev_df, last_df, grand_total, total_p
         spec_curr_prev_avg_abs = spec_curr_avg - spec_prev_avg
         
         if spec_prev_avg == 0:
-            spec_curr_prev_avg_prt = 0
+            if spec_curr_avg > 0:
+                spec_curr_prev_avg_prt = "NEW"
+            else:
+                spec_curr_prev_avg_prt = 0
         else:
             spec_curr_prev_avg_prt = spec_curr_prev_avg_abs / spec_prev_avg
         
@@ -208,7 +232,10 @@ def calculate_detailed_breakdown(curr_df, prev_df, last_df, grand_total, total_p
         spec_curr_last_avg_abs = spec_curr_avg - spec_last_avg
         
         if spec_last_avg == 0:
-            spec_curr_last_avg_prt = 0
+            if spec_curr_avg > 0:
+                spec_curr_last_avg_prt = "NEW"
+            else:
+                spec_curr_last_avg_prt = 0
         else:
             spec_curr_last_avg_prt = spec_curr_last_avg_abs / spec_last_avg
 
@@ -279,7 +306,10 @@ def calculate_detailed_breakdown(curr_df, prev_df, last_df, grand_total, total_p
             doc_curr_prev_abs = doc_curr_rev - doc_prev_rev
             
             if doc_prev_rev == 0:
-                doc_curr_prev_prt = 0
+                if doc_curr_rev > 0:
+                    doc_curr_prev_prt = "NEW"
+                else:
+                    doc_curr_prev_prt = 0
             else:
                 doc_curr_prev_prt = doc_curr_prev_abs / doc_prev_rev
             
@@ -287,7 +317,10 @@ def calculate_detailed_breakdown(curr_df, prev_df, last_df, grand_total, total_p
             doc_curr_last_abs = doc_curr_rev - doc_last_rev
             
             if doc_last_rev == 0:
-                doc_curr_last_prt = 0
+                if doc_curr_rev > 0:
+                    doc_curr_last_prt = "NEW"
+                else:
+                    doc_curr_last_prt = 0
             else:
                 doc_curr_last_prt = doc_curr_last_abs / doc_last_rev
 
@@ -321,7 +354,10 @@ def calculate_detailed_breakdown(curr_df, prev_df, last_df, grand_total, total_p
             doc_curr_prev_pat_abs = doc_curr_pat - doc_prev_pat
             
             if doc_prev_pat == 0:
-                doc_curr_prev_pat_prt = 0
+                if doc_curr_pat > 0:
+                    doc_curr_prev_pat_prt = "NEW"
+                else:
+                    doc_curr_prev_pat_prt = 0
             else:
                 doc_curr_prev_pat_prt = doc_curr_prev_pat_abs / doc_prev_pat
             
@@ -329,7 +365,10 @@ def calculate_detailed_breakdown(curr_df, prev_df, last_df, grand_total, total_p
             doc_curr_last_pat_abs = doc_curr_pat - doc_last_pat
             
             if doc_last_pat == 0:
-                doc_curr_last_pat_prt = 0
+                if doc_curr_pat > 0:
+                    doc_curr_last_pat_prt = "NEW"
+                else:
+                    doc_curr_last_pat_prt = 0
             else:
                 doc_curr_last_pat_prt = doc_curr_last_pat_abs / doc_last_pat        
             
@@ -338,7 +377,10 @@ def calculate_detailed_breakdown(curr_df, prev_df, last_df, grand_total, total_p
             doc_curr_prev_avg_abs = doc_curr_avg - doc_prev_avg
             
             if doc_prev_avg == 0:
-                doc_curr_prev_avg_prt = 0
+                if doc_curr_avg > 0:
+                    doc_curr_prev_avg_prt = "NEW"
+                else:
+                    doc_curr_prev_avg_prt = 0
             else:
                 doc_curr_prev_avg_prt = doc_curr_prev_avg_abs / doc_prev_avg
             
@@ -346,7 +388,10 @@ def calculate_detailed_breakdown(curr_df, prev_df, last_df, grand_total, total_p
             doc_curr_last_avg_abs = doc_curr_avg - doc_last_avg
             
             if doc_last_avg == 0:
-                doc_curr_last_avg_prt = 0
+                if doc_curr_avg > 0:
+                    doc_curr_last_avg_prt = "NEW"
+                else:
+                    doc_curr_last_avg_prt = 0
             else:
                 doc_curr_last_avg_prt = doc_curr_last_avg_abs / doc_last_avg
 
