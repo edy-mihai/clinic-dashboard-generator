@@ -33,6 +33,7 @@ def network_error_popup(app_window):
     custom_popup = ctk.CTkToplevel(master=app_window)
     custom_popup.title("Network Error")
     custom_popup.transient(app_window)
+    custom_popup.after(200, lambda: custom_popup.iconbitmap(get_template_path("assets/app_icon.ico")))
 
     custom_popup.geometry(CenterWindowToDisplay(app_window, 400, 160, app_window._get_window_scaling()))
 
